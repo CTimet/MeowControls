@@ -21,6 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MeowControls\MeowControls.Avalonia.csproj" />
+    <ProjectReference Include="..\MeowControls\MeowControls.csproj" />
   </ItemGroup>
 </Project>

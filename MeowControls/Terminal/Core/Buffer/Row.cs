@@ -1,7 +1,7 @@
-﻿namespace MeowControls.Avalonia.Terminal.Core.Buffer;
+﻿namespace MeowControls.Terminal.Core.Buffer;
 
 /// <summary>
-/// 一行渲染行，渲染行，渲染行，不是物理行！一个Row可能不以LF结尾
+///     一行渲染行，渲染行，渲染行，不是物理行！一个Row可能不以LF结尾
 /// </summary>
 public class Row
 {
@@ -12,9 +12,7 @@ public class Row
     public char[] Chars { get; private set; } = new char[97];
 
     /// <summary>
-    /// 表示该行是否为强制换行行。一个Row对象为一个渲染行，有的渲染行并不以LF结尾，是因为自动换行才存在的。如果该行是因为自动换行才存在的，则该标记为true
+    ///     表示该行是否为强制换行行。一个Row对象为一个渲染行，有的渲染行并不以LF结尾，是因为自动换行才存在的。如果该行是因为自动换行才存在的，则该标记为true
     /// </summary>
     public bool IsForceWrap { get; set; } = false;
-    
-    
 }

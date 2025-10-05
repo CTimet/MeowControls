@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using Avalonia.Media;
 
-namespace MeowControls.Avalonia.Terminal.Extensions;
+namespace MeowControls.Terminal.Extensions;
 
 public static class StringExtension
 {

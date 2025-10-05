@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36127.28
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeowControls.Avalonia", "MeowControls\MeowControls.Avalonia.csproj", "{1F5A01A0-2B51-4439-8AB2-5A9F7F3A0281}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeowControls", "MeowControls\MeowControls.csproj", "{1F5A01A0-2B51-4439-8AB2-5A9F7F3A0281}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeowControls.Demo", "MeowControls.Demo\MeowControls.Demo.csproj", "{93ED4478-4EDA-4FAE-B043-B993DEFCF3C3}"
 EndProject

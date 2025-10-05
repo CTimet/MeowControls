@@ -1,12 +1,8 @@
-﻿using MeowControls.Avalonia.Terminal.Core.Buffer;
-using MeowControls.Avalonia.Terminal.Options;
+﻿using MeowControls.Terminal.Options;
 
-namespace MeowControls.Avalonia.Terminal.Core.Buffer;
+namespace MeowControls.Terminal.Core.Buffer;
 
-public class TextBuffer(TerminalOptions options, Components components) : ConfigurableComponent(options: options)
+public class TextBuffer(TerminalOptions options, Components components) : ConfigurableComponent(options)
 {
     private RowBuffer<Row> _buffer = new(options.MaxHistoryRows);
-    
-    
-
 }

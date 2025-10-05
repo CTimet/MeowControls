@@ -1,6 +1,6 @@
-﻿using MeowControls.Avalonia.Terminal.Options;
+﻿using MeowControls.Terminal.Options;
 
-namespace MeowControls.Avalonia.Terminal.Core;
+namespace MeowControls.Terminal.Core;
 
 public class TerminalCore(TerminalOptions options) : ConfigurableComponent(options)
 {

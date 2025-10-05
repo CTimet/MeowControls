@@ -2,11 +2,10 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
-using MeowControls.Avalonia.Terminal.Options;
-using MeowControls.Avalonia.Terminal.Core;
-using MeowControls.Avalonia.Terminal.Options;
+using MeowControls.Terminal.Core;
+using MeowControls.Terminal.Options;
 
-namespace MeowControls.Avalonia.Terminal;
+namespace MeowControls.Terminal;
 
 /*
                    _ooOoo_
@@ -38,8 +37,68 @@ namespace MeowControls.Avalonia.Terminal;
 //
 public class Terminal : Control
 {
+    //核心组件。这个Terminal类只是个壳。把一些UI层面的事转发到TerminalCore上
+    private readonly TerminalCore _core;
+
+    //这个TerminalOptions储存了上面所有Property的值。引入该对象是因为我不想在TerminalCore里也写一堆Property，这太不优雅了
+    //TerminalOptions还提供了诸多方法，比如OnXXXPropertyChanged，等方法，用来提供setter之类的
+    private readonly TerminalOptions _options;
+
+    public Terminal()
+    {
+        _options = new TerminalOptions();
+        _core = new TerminalCore(_options);
+    }
+
+    public override void Render(DrawingContext context)
+    {
+        //只能在Render里拿Bounds
+        _options.Bounds = Bounds;
+
+        //调用渲染器渲染此控件
+        _core.Components.Renderer.Render(context);
+
+        base.Render(context);
+    }
+
+    //在OnAttachedToVisualTree中，所有我们需要的属性，除了Bounds，都已被确定。在此时初始化TerminalOptions
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnAttachedToVisualTree(e);
+
+        _options.MaxHistoryRows = MaxHistoryRows;
+        _options.FontFamily = FontFamily;
+        _options.FontStyle = FontStyle;
+        _options.FontWeight = FontWeight;
+        _options.FontStretch = FontStretch;
+        _options.FontSize = FontSize;
+        _options.DefaultForeground = DefaultForeground;
+        _options.DefaultBackground = DefaultBackground;
+        _options.SelectedForeground = SelectedForeground;
+        _options.SelectedBackground = SelectedBackground;
+        _options.BackgroundImage = BackgroundImage;
+        _options.BackgroundImgAlignment = BackgroundImgAlignment;
+        _options.LeftPadding = LeftPadding;
+        _options.TopPadding = TopPadding;
+        _options.AutoLineWrap = AutoLineWrap;
+        _options.CursorShape = CursorShape;
+        _options.BackgroundImgOpacity = BackgroundImgOpacity;
+        _options.EmphasizeTextStyle = EmphasizeTextStyle;
+        _options.ForbidTitleChange = ForbidTitleChange;
+        _options.AllowDECRQCRA = AllowDECRQCRA;
+        _options.AllowOSC52ToClipboard = AllowOSC52ToClipboard;
+        _options.ENQResponse = ENQResponse;
+        _options.ScrollToInput = ScrollToInput;
+        _options.BellNotificationBehavior = BellNotificationBehavior;
+        _options.BellNotificationCustomBehavior = BellNotificationCustomBehavior;
+        _options.ShowFlyoutAtRightClick = ShowFlyoutAtRightClick;
+        _options.CustomFlyoutAtRightClick = CustomFlyoutAtRightClick;
+        _options.ShowMarkOnScrollBar = ShowMarkOnScrollBar;
+        _options.UseSearch = UseSearch;
+    }
+
     #region Property 不要乱动里面的Setter。尤其是你看不懂为什么要这么做的时候
-    
+
     public static readonly StyledProperty<int> MaxHistoryRowsProperty = AvaloniaProperty.Register<Terminal, int>(
         nameof(MaxHistoryRows), 9999);
 
@@ -48,7 +107,7 @@ public class Terminal : Control
             nameof(FontFamily), FontFamily.Default);
 
     public static readonly StyledProperty<FontStyle> FontStyleProperty = AvaloniaProperty.Register<Terminal, FontStyle>(
-        nameof(FontStyle), FontStyle.Normal);
+        nameof(FontStyle));
 
     public static readonly StyledProperty<FontWeight> FontWeightProperty =
         AvaloniaProperty.Register<Terminal, FontWeight>(
@@ -79,11 +138,11 @@ public class Terminal : Control
 
     public static readonly StyledProperty<IImage?> BackgroundImageProperty =
         AvaloniaProperty.Register<Terminal, IImage?>(
-            nameof(BackgroundImage), null);
+            nameof(BackgroundImage));
 
     public static readonly StyledProperty<ImageAlignment> BackgroundImgAlignmentProperty =
         AvaloniaProperty.Register<Terminal, ImageAlignment>(
-            nameof(BackgroundImgAlignment), ImageAlignment.COVER);
+            nameof(BackgroundImgAlignment));
 
     public static readonly StyledProperty<double> LeftPaddingProperty = AvaloniaProperty.Register<Terminal, double>(
         nameof(LeftPadding), 5.0);
@@ -96,7 +155,7 @@ public class Terminal : Control
 
     public static readonly StyledProperty<CursorShape> CursorShapeProperty =
         AvaloniaProperty.Register<Terminal, CursorShape>(
-            nameof(CursorShape), CursorShape.BAR);
+            nameof(CursorShape));
 
     public static readonly StyledProperty<double> BackgroundImgOpacityProperty =
         AvaloniaProperty.Register<Terminal, double>(
@@ -110,14 +169,14 @@ public class Terminal : Control
         nameof(ForbidTitleChange));
 
     public static readonly StyledProperty<bool> AllowDECRQCRAProperty = AvaloniaProperty.Register<Terminal, bool>(
-        nameof(AllowDECRQCRA), false);
+        nameof(AllowDECRQCRA));
 
     public static readonly StyledProperty<bool> AllowOSC52ToClipboardProperty =
         AvaloniaProperty.Register<Terminal, bool>(
-            nameof(AllowOSC52ToClipboard), false);
+            nameof(AllowOSC52ToClipboard));
 
     public static readonly StyledProperty<string?> ENQResponseProperty = AvaloniaProperty.Register<Terminal, string?>(
-        nameof(ENQResponse), null);
+        nameof(ENQResponse));
 
     public static readonly StyledProperty<bool> ScrollToInputProperty = AvaloniaProperty.Register<Terminal, bool>(
         nameof(ScrollToInput), true);
@@ -128,18 +187,18 @@ public class Terminal : Control
 
     public static readonly StyledProperty<IBellNotificationCustomBehavior?> BellNotificationCustomBehaviorProperty =
         AvaloniaProperty.Register<Terminal, IBellNotificationCustomBehavior?>(
-            nameof(BellNotificationCustomBehavior), null);
+            nameof(BellNotificationCustomBehavior));
 
     public static readonly StyledProperty<bool> ShowFlyoutAtRightClickProperty =
         AvaloniaProperty.Register<Terminal, bool>(
-            nameof(ShowFlyoutAtRightClick), false);
+            nameof(ShowFlyoutAtRightClick));
 
     public static readonly StyledProperty<Flyout?> CustomFlyoutAtRightClickProperty =
         AvaloniaProperty.Register<Terminal, Flyout?>(
-            nameof(CustomFlyoutAtRightClick), null);
+            nameof(CustomFlyoutAtRightClick));
 
     public static readonly StyledProperty<bool> ShowMarkOnScrollBarProperty = AvaloniaProperty.Register<Terminal, bool>(
-        nameof(ShowMarkOnScrollBar), false);
+        nameof(ShowMarkOnScrollBar));
 
     public static readonly StyledProperty<bool> UseSearchProperty = AvaloniaProperty.Register<Terminal, bool>(
         nameof(UseSearch));
@@ -545,66 +604,6 @@ public class Terminal : Control
             SetValue(MaxHistoryRowsProperty, _options.MaxHistoryRows);
         }
     }
-    
+
     #endregion
-
-    //这个TerminalOptions储存了上面所有Property的值。引入该对象是因为我不想在TerminalCore里也写一堆Property，这太不优雅了
-    //TerminalOptions还提供了诸多方法，比如OnXXXPropertyChanged，等方法，用来提供setter之类的
-    private readonly TerminalOptions _options;
-    
-    //核心组件。这个Terminal类只是个壳。把一些UI层面的事转发到TerminalCore上
-    private readonly TerminalCore _core;
-
-    public Terminal()
-    {
-        _options = new TerminalOptions();
-        _core = new TerminalCore(_options);
-    }
-
-    public override void Render(DrawingContext context)
-    {
-        //只能在Render里拿Bounds
-        _options.Bounds = Bounds;
-        
-        //调用渲染器渲染此控件
-        _core.Components.Renderer.Render(context);
-
-        base.Render(context);
-    }
-
-    //在OnAttachedToVisualTree中，所有我们需要的属性，除了Bounds，都已被确定。在此时初始化TerminalOptions
-    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
-    {
-        base.OnAttachedToVisualTree(e);
-
-        _options.MaxHistoryRows = MaxHistoryRows;
-        _options.FontFamily = FontFamily;
-        _options.FontStyle = FontStyle;
-        _options.FontWeight = FontWeight;
-        _options.FontStretch = FontStretch;
-        _options.FontSize = FontSize;
-        _options.DefaultForeground = DefaultForeground;
-        _options.DefaultBackground = DefaultBackground;
-        _options.SelectedForeground = SelectedForeground;
-        _options.SelectedBackground = SelectedBackground;
-        _options.BackgroundImage = BackgroundImage;
-        _options.BackgroundImgAlignment = BackgroundImgAlignment;
-        _options.LeftPadding = LeftPadding;
-        _options.TopPadding = TopPadding;
-        _options.AutoLineWrap = AutoLineWrap;
-        _options.CursorShape = CursorShape;
-        _options.BackgroundImgOpacity = BackgroundImgOpacity;
-        _options.EmphasizeTextStyle = EmphasizeTextStyle;
-        _options.ForbidTitleChange = ForbidTitleChange;
-        _options.AllowDECRQCRA = AllowDECRQCRA;
-        _options.AllowOSC52ToClipboard = AllowOSC52ToClipboard;
-        _options.ENQResponse = ENQResponse;
-        _options.ScrollToInput = ScrollToInput;
-        _options.BellNotificationBehavior = BellNotificationBehavior;
-        _options.BellNotificationCustomBehavior = BellNotificationCustomBehavior;
-        _options.ShowFlyoutAtRightClick = ShowFlyoutAtRightClick;
-        _options.CustomFlyoutAtRightClick = CustomFlyoutAtRightClick;
-        _options.ShowMarkOnScrollBar = ShowMarkOnScrollBar;
-        _options.UseSearch = UseSearch;
-    }
 }

@@ -1,4 +1,4 @@
-﻿namespace MeowControls.Avalonia.Terminal.Options;
+﻿namespace MeowControls.Terminal.Options;
 
 public interface IBellNotificationCustomBehavior
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Avalonia.Media;
 
-namespace MeowControls.Avalonia.Terminal.Extensions;
+namespace MeowControls.Terminal.Extensions;
 
 public static class BrushesExtension
 {
@@ -9,7 +9,6 @@ public static class BrushesExtension
     {
         switch (brush)
         {
-            
         }
 
         throw new NotImplementedException();
@@ -19,7 +18,6 @@ public static class BrushesExtension
     {
         switch (brush)
         {
-            
         }
 
         throw new NotImplementedException();
