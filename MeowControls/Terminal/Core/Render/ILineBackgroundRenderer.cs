@@ -1,9 +1,10 @@
 ﻿using Avalonia;
 using Avalonia.Media;
-using MeowControls.Controls.Terminal.Core.Buffer;
-using MeowControls.Controls.Terminal.Options;
+using MeowControls.Avalonia.Terminal.Core.Buffer;
+using MeowControls.Avalonia.Terminal.Core.Buffer;
+using MeowControls.Avalonia.Terminal.Options;
 
-namespace MeowControls.Controls.Terminal.Core.Render;
+namespace MeowControls.Avalonia.Terminal.Core.Render;
 
 public abstract class LineBackgroundRenderer(TerminalOptions options, double lineHeight)
 {

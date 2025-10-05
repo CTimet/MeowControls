@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using Avalonia;
 using Avalonia.Media;
-using MeowControls.Controls.Terminal.Extensions;
+using MeowControls.Avalonia.Terminal.Extensions;
 using MeowControls.Controls.Terminal0.Render.Engine;
 
 namespace MeowControls.Controls.Terminal0.Render;

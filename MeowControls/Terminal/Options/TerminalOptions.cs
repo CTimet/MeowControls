@@ -1,8 +1,9 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
+using MeowControls.Avalonia.Terminal.Options;
 
-namespace MeowControls.Controls.Terminal.Options;
+namespace MeowControls.Avalonia.Terminal.Options;
 
 public class TerminalOptions
 {

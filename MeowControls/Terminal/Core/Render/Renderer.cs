@@ -1,10 +1,10 @@
 ﻿using System;
 using Avalonia;
 using Avalonia.Media;
-using MeowControls.Controls.Terminal.Extensions;
-using MeowControls.Controls.Terminal.Options;
+using MeowControls.Avalonia.Terminal.Extensions;
+using MeowControls.Avalonia.Terminal.Options;
 
-namespace MeowControls.Controls.Terminal.Core.Render;
+namespace MeowControls.Avalonia.Terminal.Core.Render;
 
 #pragma warning disable CS9107 // 参数捕获到封闭类型状态，其值也传递给基构造函数。该值也可能由基类捕获。
 public class Renderer(TerminalOptions options, Components components) : ConfigurableComponent(options)

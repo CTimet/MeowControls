@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Reflection.Metadata.Ecma335;
 using Avalonia;
 using Avalonia.Media;
-using MeowControls.Controls.Terminal.Extensions;
+using MeowControls.Avalonia.Terminal.Extensions;
 
 namespace MeowControls.Controls.Terminal0.Render.Engine;
 

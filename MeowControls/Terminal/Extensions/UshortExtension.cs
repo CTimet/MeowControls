@@ -1,7 +1,7 @@
 ﻿using System;
 using Avalonia.Media;
 
-namespace MeowControls.Controls.Terminal.Extensions;
+namespace MeowControls.Avalonia.Terminal.Extensions;
 
 /// <summary>
 /// RenderRow 中使用一个ushort数组，利用ushort的前8位与后8位储存字符前景色与背景色。为方便计算颜色遂编写此扩展类

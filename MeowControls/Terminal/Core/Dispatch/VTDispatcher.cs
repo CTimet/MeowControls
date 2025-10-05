@@ -1,6 +1,6 @@
-﻿using MeowControls.Controls.Terminal.Options;
+﻿using MeowControls.Avalonia.Terminal.Options;
 
-namespace MeowControls.Controls.Terminal.Core.Dispatch;
+namespace MeowControls.Avalonia.Terminal.Core.Dispatch;
 
 public class VTDispatcher(TerminalOptions options, Components components) : ConfigurableComponent(options)
 {

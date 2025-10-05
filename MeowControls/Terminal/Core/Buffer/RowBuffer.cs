@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MeowControls.Controls.Terminal.Core.Buffer;
+namespace MeowControls.Avalonia.Terminal.Core.Buffer;
 
 /// <summary>
 /// 一个同时具有LinkedList高效随机插入，同时具有维持一定容量功能的类，当元素过多时可以删除头部元素或者尾部元素。

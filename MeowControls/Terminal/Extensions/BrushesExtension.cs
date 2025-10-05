@@ -1,7 +1,7 @@
 ﻿using System;
 using Avalonia.Media;
 
-namespace MeowControls.Controls.Terminal.Extensions;
+namespace MeowControls.Avalonia.Terminal.Extensions;
 
 public static class BrushesExtension
 {

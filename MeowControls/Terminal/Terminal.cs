@@ -2,10 +2,11 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
-using MeowControls.Controls.Terminal.Core;
-using MeowControls.Controls.Terminal.Options;
+using MeowControls.Avalonia.Terminal.Options;
+using MeowControls.Avalonia.Terminal.Core;
+using MeowControls.Avalonia.Terminal.Options;
 
-namespace MeowControls.Controls.Terminal;
+namespace MeowControls.Avalonia.Terminal;
 
 /*
                    _ooOoo_

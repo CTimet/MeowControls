@@ -1,4 +1,4 @@
-﻿namespace MeowControls.Controls.Terminal.Core.Buffer;
+﻿namespace MeowControls.Avalonia.Terminal.Core.Buffer;
 
 /// <summary>
 /// 一行渲染行，渲染行，渲染行，不是物理行！一个Row可能不以LF结尾

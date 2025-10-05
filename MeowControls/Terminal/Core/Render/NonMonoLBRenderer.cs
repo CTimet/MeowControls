@@ -1,8 +1,9 @@
 ﻿using Avalonia.Media;
-using MeowControls.Controls.Terminal.Core.Buffer;
-using MeowControls.Controls.Terminal.Options;
+using MeowControls.Avalonia.Terminal.Core.Buffer;
+using MeowControls.Avalonia.Terminal.Core.Buffer;
+using MeowControls.Avalonia.Terminal.Options;
 
-namespace MeowControls.Controls.Terminal.Core.Render;
+namespace MeowControls.Avalonia.Terminal.Core.Render;
 
 // ReSharper disable once InconsistentNaming
 public class NonMonoLBRenderer(TerminalOptions options, double lineHeight) : LineBackgroundRenderer(options, lineHeight)

@@ -1,9 +1,9 @@
-﻿using MeowControls.Controls.Terminal.Core.Buffer;
-using MeowControls.Controls.Terminal.Core.Dispatch;
-using MeowControls.Controls.Terminal.Core.Render;
-using MeowControls.Controls.Terminal.Options;
+﻿using MeowControls.Avalonia.Terminal.Core.Buffer;
+using MeowControls.Avalonia.Terminal.Core.Dispatch;
+using MeowControls.Avalonia.Terminal.Core.Render;
+using MeowControls.Avalonia.Terminal.Options;
 
-namespace MeowControls.Controls.Terminal.Core;
+namespace MeowControls.Avalonia.Terminal.Core;
 
 public class Components : ConfigurableComponent
 {
