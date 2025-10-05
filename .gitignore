@@ -1,0 +1,9 @@
+.git
+.idea
+.vs
+MeowControls/.idea
+MeowControls/.vs
+MeowControls/bin
+MeowControls/obj
+MeowControls.Demo/bin
+MeowControls.Demo/obj
