@@ -35,6 +35,7 @@ public class Renderer(TerminalOptions options, Components components) : Configur
             : new NonMonoLBRenderer(options, lineHeight);
 
         //调用行背景渲染器。渲染每一行的字符背景
+        var tb = components.TextBuffer;
 
         #endregion
     }

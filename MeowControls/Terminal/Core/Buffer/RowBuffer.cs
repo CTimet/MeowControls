@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MeowControls.Terminal.Core.Buffer;
 
@@ -40,8 +41,10 @@ public class RowBuffer<T>
         CheckCapacityMaintain();
 
         if (Count is 1)
+        {
             //这是第一个元素，把_pointer设置为它
             _pointer = _buffer.First!;
+        }
     }
 
     /// <summary>
@@ -51,11 +54,15 @@ public class RowBuffer<T>
     public T Dequeue()
     {
         if (_buffer.First is null)
+        {
             throw new InvalidOperationException("Buffer is empty when trying to invoke #Dequeue");
+        }
 
         if (Equals(_pointer, _buffer.First))
+        {
             //一并修改_pointer
             _pointer = null;
+        }
         var t = _buffer.First.Value;
         _buffer.RemoveFirst();
         return t;
@@ -67,7 +74,10 @@ public class RowBuffer<T>
     /// <returns></returns>
     public T Peek()
     {
-        if (_buffer.First is null) throw new InvalidOperationException("Buffer is empty when trying to invoke #Peek");
+        if (_buffer.First is null)
+        {
+            throw new InvalidOperationException("Buffer is empty when trying to invoke #Peek");
+        }
 
         return _buffer.First.Value;
     }
@@ -77,7 +87,10 @@ public class RowBuffer<T>
     /// </summary>
     public T Get()
     {
-        if (_pointer is null) throw new InvalidOperationException("Pointer is null. #Get");
+        if (_pointer is null)
+        {
+            throw new InvalidOperationException("Pointer is null. #Get");
+        }
 
         return _pointer.Value;
     }
@@ -89,7 +102,10 @@ public class RowBuffer<T>
     /// </summary>
     public void InsertAfter(T t)
     {
-        if (_pointer is null) throw new InvalidOperationException("Pointer is null. #InsertAfter");
+        if (_pointer is null)
+        {
+            throw new InvalidOperationException("Pointer is null. #InsertAfter");
+        }
 
         _buffer.AddAfter(_pointer, new LinkedListNode<T>(t));
         CheckCapacityMaintain();
@@ -113,7 +129,10 @@ public class RowBuffer<T>
     /// </summary>
     public void InsertBefore(T t)
     {
-        if (_pointer is null) throw new InvalidOperationException("Pointer is null. #InsertBefore");
+        if (_pointer is null)
+        {
+            throw new InvalidOperationException("Pointer is null. #InsertBefore");
+        }
 
         _buffer.AddBefore(_pointer, new LinkedListNode<T>(t));
         CheckCapacityMaintain(true);
@@ -135,7 +154,10 @@ public class RowBuffer<T>
     /// </summary>
     public void NextPointer()
     {
-        if (_pointer is null) throw new InvalidOperationException("Pointer is null. #NextPointer");
+        if (_pointer is null)
+        {
+            throw new InvalidOperationException("Pointer is null. #NextPointer");
+        }
 
         if (_pointer.Next is not null) _pointer = _pointer.Next;
     }
@@ -145,7 +167,10 @@ public class RowBuffer<T>
     /// </summary>
     public void PrevPointer()
     {
-        if (_pointer is null) throw new InvalidOperationException("Pointer is null. #PrevPointer");
+        if (_pointer is null)
+        {
+            throw new InvalidOperationException("Pointer is null. #PrevPointer");
+        }
 
         if (_pointer.Previous is not null) _pointer = _pointer.Previous;
     }
@@ -166,9 +191,43 @@ public class RowBuffer<T>
         _pointer = _buffer.Last;
     }
 
+    //标记当前在第几行。0代表未赋值
+    private int _currentRow;
+
+    /// <summary>
+    /// 将指针移动到指定渲染行位置。传参从1开始。
+    /// </summary>
+    public void MovePointerTo(int row)
+    {
+        if (row is 1)
+        {
+            _pointer = _buffer.First;
+        }
+
+        if (row == _buffer.Count)
+        {
+            _pointer = _buffer.Last;
+        }
+
+        while (row > _currentRow)
+        {
+            _pointer = _pointer?.Next;
+            _currentRow++;
+        }
+
+        while (row < _currentRow)
+        {
+            _pointer = _pointer?.Previous;
+            _currentRow--;
+        }
+    }
+
     private void CheckCapacityMaintain(bool deleteLast = false)
     {
-        if (Count <= _capacity) return;
+        if (Count <= _capacity)
+        {
+            return;
+        }
 
         if (deleteLast)
         {
@@ -178,7 +237,10 @@ public class RowBuffer<T>
             return;
         }
 
-        if (Equals(_pointer, _buffer.First)) _pointer = _pointer?.Next;
+        if (Equals(_pointer, _buffer.First))
+        {
+            _pointer = _pointer?.Next;
+        }
         _buffer.RemoveFirst();
     }
 
@@ -201,6 +263,9 @@ public class RowBuffer<T>
 
     public void Foreach(Action<T> action)
     {
-        foreach (var row in _buffer) action.Invoke(row);
+        foreach (var row in _buffer)
+        {
+            action.Invoke(row);
+        }
     }
 }

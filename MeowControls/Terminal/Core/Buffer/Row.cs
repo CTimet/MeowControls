@@ -1,18 +1,67 @@
-﻿namespace MeowControls.Terminal.Core.Buffer;
+﻿using System;
+
+namespace MeowControls.Terminal.Core.Buffer;
 
 /// <summary>
 ///     一行渲染行，渲染行，渲染行，不是物理行！一个Row可能不以LF结尾
 /// </summary>
 public class Row
 {
-    //这个 new char[97] 可不是随便写的。如果这个值过小，就要频繁扩容，影响性能，虽然也问题不大
-    //如果这个值过大，又会浪费空间。考虑到这个Terminal控件最初是为了写给我管理mc的软件用的，所以我让ai写了一个小程序，统计了一个简单的mc控制台log里
-    //各行的行宽，然后取了75%分位数。计算的结果就是97.0。本来想取70%的，感觉太小了，而且不是整数，又改成80%，又想会不会太大了，也不是整数
-    //而75%，不大不小，而且计算结果刚好是整数。所以这里行的默认初始化大小就是75个字符了
-    public char[] Chars { get; private set; } = new char[97];
+    public char[] Chars { get; }
+
+    /// <summary>
+    /// 各个字符的颜色属性值
+    /// </summary>
+    public ushort[] Attributes { get; }
+    
+    /// <summary>
+    /// 构造一行虚拟行。 initialCapacity为行初始能容纳字符数，该值应由Renderer计算出并传参。
+    /// initialCapacity不可小于等于0。否则会抛出InvalidOperationException
+    /// </summary>
+    public Row(int initialCapacity)
+    {
+        if (initialCapacity <= 0)
+        {
+            throw new InvalidOperationException($"Cannot build a row whose length = {initialCapacity}");
+        }
+        
+        Chars = new char[initialCapacity];
+        Attributes = new ushort[initialCapacity];
+    }
 
     /// <summary>
     ///     表示该行是否为强制换行行。一个Row对象为一个渲染行，有的渲染行并不以LF结尾，是因为自动换行才存在的。如果该行是因为自动换行才存在的，则该标记为true
     /// </summary>
     public bool IsForceWrap { get; set; } = false;
+
+    //指针，默认指向第1个字符，也就是第0个位置
+    private int _pointerIndex = 0;
+
+    /// <summary>
+    /// 尝试将指针往后移动。成功则返回true，失败false。
+    /// </summary>
+    public bool NextPointer()
+    {
+        if (_pointerIndex + 1 == Chars.Length)
+        {
+            return false;
+        }
+
+        _pointerIndex++;
+        return true;
+    }
+
+    /// <summary>
+    /// 尝试将指针往前移动。成功则返回true，失败false
+    /// </summary>
+    public bool PrevPointer()
+    {
+        if (_pointerIndex == 0)
+        {
+            return false;
+        }
+
+        _pointerIndex--;
+        return true;
+    }
 }
