@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 
@@ -7,93 +8,93 @@ namespace MeowControls.Terminal.Options;
 public class TerminalOptions
 {
     private bool _allowDECRQCRA;
-    private IPropertyChangeHandler<bool>? _allowDECRQCRAChangeHandler;
+    private Func<bool, bool>? _allowDECRQCRAChangeHandler;
 
     private bool _allowOSC52ToClipboard;
-    private IPropertyChangeHandler<bool>? _allowOSC52ToClipboardChangeHandler;
+    private Func<bool, bool>? _allowOSC52ToClipboardChangeHandler;
 
     private bool _autoLineWrap = true;
-    private IPropertyChangeHandler<bool>? _autoLineWrapChangeHandler;
+    private Func<bool, bool>? _autoLineWrapChangeHandler;
 
     private IImage? _backgroundImage;
-    private IPropertyChangeHandler<IImage?>? _backgroundImageChangeHandler;
+    private Func<IImage?, bool>? _backgroundImageChangeHandler;
 
     private ImageAlignment _backgroundImgAlignment = ImageAlignment.COVER;
-    private IPropertyChangeHandler<ImageAlignment>? _backgroundImgAlignmentChangeHandler;
+    private Func<ImageAlignment, bool>? _backgroundImgAlignmentChangeHandler;
 
     private double _backgroundImgOpacity = 1.0;
-    private IPropertyChangeHandler<double>? _backgroundImgOpacityChangeHandler;
+    private Func<double, bool>? _backgroundImgOpacityChangeHandler;
 
     private BellNotificationBehavior _bellNotificationBehavior;
-    private IPropertyChangeHandler<BellNotificationBehavior>? _bellNotificationBehaviorChangeHandler;
+    private Func<BellNotificationBehavior, bool>? _bellNotificationBehaviorChangeHandler;
 
     private IBellNotificationCustomBehavior? _bellNotificationCustomBehavior;
-    private IPropertyChangeHandler<IBellNotificationCustomBehavior?>? _bellNotificationCustomBehaviorChangeHandler;
+    private Func<IBellNotificationCustomBehavior?, bool>? _bellNotificationCustomBehaviorChangeHandler;
     private Rect _bounds;
-    private IPropertyChangeHandler<Rect>? _boundsChangeHandler;
+    private Func<Rect, bool>? _boundsChangeHandler;
 
     private CursorShape _cursorShape = CursorShape.BAR;
-    private IPropertyChangeHandler<CursorShape>? _cursorShapeChangeHandler;
+    private Func<CursorShape, bool>? _cursorShapeChangeHandler;
 
     private Flyout? _customFlyoutAtRightClick;
-    private IPropertyChangeHandler<Flyout?>? _customFlyoutAtRightClickChangeHandler;
+    private Func<Flyout?, bool>? _customFlyoutAtRightClickChangeHandler;
 
     private IBrush _defaultBackground = Brushes.Transparent;
-    private IPropertyChangeHandler<IBrush>? _defaultBackgroundChangeHandler;
+    private Func<IBrush, bool>? _defaultBackgroundChangeHandler;
 
     private IBrush _defaultForeground = Brushes.Black;
-    private IPropertyChangeHandler<IBrush>? _defaultForegroundChangeHandler;
+    private Func<IBrush, bool>? _defaultForegroundChangeHandler;
 
     private EmphasizeTextStyle _emphasizeTextStyle = EmphasizeTextStyle.HIGHLIGHT;
-    private IPropertyChangeHandler<EmphasizeTextStyle>? _emphasizeTextStyleChangeHandler;
+    private Func<EmphasizeTextStyle, bool>? _emphasizeTextStyleChangeHandler;
 
     private string? _enqResponse;
-    private IPropertyChangeHandler<string?>? _enqResponseChangeHandler;
+    private Func<string?, bool>? _enqResponseChangeHandler;
 
     private FontFamily _fontFamily = FontFamily.Default;
-    private IPropertyChangeHandler<FontFamily>? _fontFamilyChangeHandler;
+    private Func<FontFamily, bool>? _fontFamilyChangeHandler;
 
     private double _fontSize = 12.0;
-    private IPropertyChangeHandler<double>? _fontSizeChangeHandler;
+    private Func<double, bool>? _fontSizeChangeHandler;
 
     private FontStretch _fontStretch = FontStretch.Normal;
-    private IPropertyChangeHandler<FontStretch>? _fontStretchChangeHandler;
+    private Func<FontStretch, bool>? _fontStretchChangeHandler;
 
     private FontStyle _fontStyle = FontStyle.Normal;
-    private IPropertyChangeHandler<FontStyle>? _fontStyleChangeHandler;
+    private Func<FontStyle, bool>? _fontStyleChangeHandler;
 
     private FontWeight _fontWeight = FontWeight.Normal;
-    private IPropertyChangeHandler<FontWeight>? _fontWeightChangeHandler;
+    private Func<FontWeight, bool>? _fontWeightChangeHandler;
 
     private bool _forbidTitleChange;
-    private IPropertyChangeHandler<bool>? _forbidTitleChangeChangeHandler;
+    private Func<bool, bool>? _forbidTitleChangeChangeHandler;
 
     private double _leftPadding = 5.0;
-    private IPropertyChangeHandler<double>? _leftPaddingChangeHandler;
+    private Func<double, bool>? _leftPaddingChangeHandler;
 
     private int _maxHistoryRows = 9999;
-    private IPropertyChangeHandler<int>? _maxHistoryRowsChangeHandler;
+    private Func<int, bool>? _maxHistoryRowsChangeHandler;
 
     private bool _scrollToInput = true;
-    private IPropertyChangeHandler<bool>? _scrollToInputChangeHandler;
+    private Func<bool, bool>? _scrollToInputChangeHandler;
 
     private IBrush _selectedBackground = Brushes.SkyBlue;
-    private IPropertyChangeHandler<IBrush>? _selectedBackgroundChangeHandler;
+    private Func<IBrush, bool>? _selectedBackgroundChangeHandler;
 
     private IBrush _selectedForeground = Brushes.Black;
-    private IPropertyChangeHandler<IBrush>? _selectedForegroundChangeHandler;
+    private Func<IBrush, bool>? _selectedForegroundChangeHandler;
 
     private bool _showFlyoutAtRightClick;
-    private IPropertyChangeHandler<bool>? _showFlyoutAtRightClickChangeHandler;
+    private Func<bool, bool>? _showFlyoutAtRightClickChangeHandler;
 
     private bool _showMarkOnScrollBar;
-    private IPropertyChangeHandler<bool>? _showMarkOnScrollBarChangeHandler;
+    private Func<bool, bool>? _showMarkOnScrollBarChangeHandler;
 
     private double _topPadding = 5.0;
-    private IPropertyChangeHandler<double>? _topPaddingChangeHandler;
+    private Func<double, bool>? _topPaddingChangeHandler;
 
     private bool _useSearch;
-    private IPropertyChangeHandler<bool>? _useSearchChangeHandler;
+    private Func<bool, bool>? _useSearchChangeHandler;
 
     public Rect Bounds
     {
@@ -102,7 +103,7 @@ public class TerminalOptions
         {
             if (Equals(value, _bounds)) return;
 
-            if (_boundsChangeHandler?.Handle(value) is null or true) _bounds = value;
+            if (_boundsChangeHandler?.Invoke(value) is null or true) _bounds = value;
         }
     }
 
@@ -113,7 +114,7 @@ public class TerminalOptions
         {
             if (Equals(value, _maxHistoryRows)) return;
 
-            if (_maxHistoryRowsChangeHandler?.Handle(value) is null or true) _maxHistoryRows = value;
+            if (_maxHistoryRowsChangeHandler?.Invoke(value) is null or true) _maxHistoryRows = value;
         }
     }
 
@@ -124,7 +125,7 @@ public class TerminalOptions
         {
             if (Equals(value, _fontFamily)) return;
 
-            if (_fontFamilyChangeHandler?.Handle(value) is null or true) _fontFamily = value;
+            if (_fontFamilyChangeHandler?.Invoke(value) is null or true) _fontFamily = value;
         }
     }
 
@@ -135,7 +136,7 @@ public class TerminalOptions
         {
             if (Equals(value, _fontStyle)) return;
 
-            if (_fontStyleChangeHandler?.Handle(value) is null or true) _fontStyle = value;
+            if (_fontStyleChangeHandler?.Invoke(value) is null or true) _fontStyle = value;
         }
     }
 
@@ -146,7 +147,7 @@ public class TerminalOptions
         {
             if (Equals(value, _fontWeight)) return;
 
-            if (_fontWeightChangeHandler?.Handle(value) is null or true) _fontWeight = value;
+            if (_fontWeightChangeHandler?.Invoke(value) is null or true) _fontWeight = value;
         }
     }
 
@@ -157,7 +158,7 @@ public class TerminalOptions
         {
             if (Equals(value, _fontStretch)) return;
 
-            if (_fontStretchChangeHandler?.Handle(value) is null or true) _fontStretch = value;
+            if (_fontStretchChangeHandler?.Invoke(value) is null or true) _fontStretch = value;
         }
     }
 
@@ -168,7 +169,7 @@ public class TerminalOptions
         {
             if (Equals(value, _fontSize)) return;
 
-            if (_fontSizeChangeHandler?.Handle(value) is null or true) _fontSize = value;
+            if (_fontSizeChangeHandler?.Invoke(value) is null or true) _fontSize = value;
         }
     }
 
@@ -179,7 +180,7 @@ public class TerminalOptions
         {
             if (Equals(value, _defaultForeground)) return;
 
-            if (_defaultForegroundChangeHandler?.Handle(value) is null or true) _defaultForeground = value;
+            if (_defaultForegroundChangeHandler?.Invoke(value) is null or true) _defaultForeground = value;
         }
     }
 
@@ -190,7 +191,7 @@ public class TerminalOptions
         {
             if (Equals(value, _defaultBackground)) return;
 
-            if (_defaultBackgroundChangeHandler?.Handle(value) is null or true) _defaultBackground = value;
+            if (_defaultBackgroundChangeHandler?.Invoke(value) is null or true) _defaultBackground = value;
         }
     }
 
@@ -201,7 +202,7 @@ public class TerminalOptions
         {
             if (Equals(value, _selectedForeground)) return;
 
-            if (_selectedForegroundChangeHandler?.Handle(value) is null or true) _selectedForeground = value;
+            if (_selectedForegroundChangeHandler?.Invoke(value) is null or true) _selectedForeground = value;
         }
     }
 
@@ -212,7 +213,7 @@ public class TerminalOptions
         {
             if (Equals(value, _selectedBackground)) return;
 
-            if (_selectedBackgroundChangeHandler?.Handle(value) is null or true) _selectedBackground = value;
+            if (_selectedBackgroundChangeHandler?.Invoke(value) is null or true) _selectedBackground = value;
         }
     }
 
@@ -223,7 +224,7 @@ public class TerminalOptions
         {
             if (Equals(value, _backgroundImage)) return;
 
-            if (_backgroundImageChangeHandler?.Handle(value) is null or true) _backgroundImage = value;
+            if (_backgroundImageChangeHandler?.Invoke(value) is null or true) _backgroundImage = value;
         }
     }
 
@@ -234,7 +235,7 @@ public class TerminalOptions
         {
             if (Equals(value, _backgroundImgAlignment)) return;
 
-            if (_backgroundImgAlignmentChangeHandler?.Handle(value) is null or true) _backgroundImgAlignment = value;
+            if (_backgroundImgAlignmentChangeHandler?.Invoke(value) is null or true) _backgroundImgAlignment = value;
         }
     }
 
@@ -245,7 +246,7 @@ public class TerminalOptions
         {
             if (Equals(value, _leftPadding)) return;
 
-            if (_leftPaddingChangeHandler?.Handle(value) is null or true) _leftPadding = value;
+            if (_leftPaddingChangeHandler?.Invoke(value) is null or true) _leftPadding = value;
         }
     }
 
@@ -256,7 +257,7 @@ public class TerminalOptions
         {
             if (Equals(value, _topPadding)) return;
 
-            if (_topPaddingChangeHandler?.Handle(value) is null or true) _topPadding = value;
+            if (_topPaddingChangeHandler?.Invoke(value) is null or true) _topPadding = value;
         }
     }
 
@@ -267,7 +268,7 @@ public class TerminalOptions
         {
             if (Equals(value, _autoLineWrap)) return;
 
-            if (_autoLineWrapChangeHandler?.Handle(value) is null or true) _autoLineWrap = value;
+            if (_autoLineWrapChangeHandler?.Invoke(value) is null or true) _autoLineWrap = value;
         }
     }
 
@@ -278,7 +279,7 @@ public class TerminalOptions
         {
             if (Equals(value, _cursorShape)) return;
 
-            if (_cursorShapeChangeHandler?.Handle(value) is null or true) _cursorShape = value;
+            if (_cursorShapeChangeHandler?.Invoke(value) is null or true) _cursorShape = value;
         }
     }
 
@@ -289,7 +290,7 @@ public class TerminalOptions
         {
             if (Equals(value, _backgroundImgOpacity)) return;
 
-            if (_backgroundImgOpacityChangeHandler?.Handle(value) is null or true) _backgroundImgOpacity = value;
+            if (_backgroundImgOpacityChangeHandler?.Invoke(value) is null or true) _backgroundImgOpacity = value;
         }
     }
 
@@ -300,7 +301,7 @@ public class TerminalOptions
         {
             if (Equals(value, _emphasizeTextStyle)) return;
 
-            if (_emphasizeTextStyleChangeHandler?.Handle(value) is null or true) _emphasizeTextStyle = value;
+            if (_emphasizeTextStyleChangeHandler?.Invoke(value) is null or true) _emphasizeTextStyle = value;
         }
     }
 
@@ -311,7 +312,7 @@ public class TerminalOptions
         {
             if (Equals(value, _forbidTitleChange)) return;
 
-            if (_forbidTitleChangeChangeHandler?.Handle(value) is null or true) _forbidTitleChange = value;
+            if (_forbidTitleChangeChangeHandler?.Invoke(value) is null or true) _forbidTitleChange = value;
         }
     }
 
@@ -322,7 +323,7 @@ public class TerminalOptions
         {
             if (Equals(value, _allowDECRQCRA)) return;
 
-            if (_allowDECRQCRAChangeHandler?.Handle(value) is null or true) _allowDECRQCRA = value;
+            if (_allowDECRQCRAChangeHandler?.Invoke(value) is null or true) _allowDECRQCRA = value;
         }
     }
 
@@ -333,7 +334,7 @@ public class TerminalOptions
         {
             if (Equals(value, _allowOSC52ToClipboard)) return;
 
-            if (_allowOSC52ToClipboardChangeHandler?.Handle(value) is null or true) _allowOSC52ToClipboard = value;
+            if (_allowOSC52ToClipboardChangeHandler?.Invoke(value) is null or true) _allowOSC52ToClipboard = value;
         }
     }
 
@@ -344,7 +345,7 @@ public class TerminalOptions
         {
             if (Equals(value, _enqResponse)) return;
 
-            if (_enqResponseChangeHandler?.Handle(value) is null or true) _enqResponse = value;
+            if (_enqResponseChangeHandler?.Invoke(value) is null or true) _enqResponse = value;
         }
     }
 
@@ -355,7 +356,7 @@ public class TerminalOptions
         {
             if (Equals(value, _scrollToInput)) return;
 
-            if (_scrollToInputChangeHandler?.Handle(value) is null or true) _scrollToInput = value;
+            if (_scrollToInputChangeHandler?.Invoke(value) is null or true) _scrollToInput = value;
         }
     }
 
@@ -366,7 +367,7 @@ public class TerminalOptions
         {
             if (Equals(value, _bellNotificationBehavior)) return;
 
-            if (_bellNotificationBehaviorChangeHandler?.Handle(value) is null or true)
+            if (_bellNotificationBehaviorChangeHandler?.Invoke(value) is null or true)
                 _bellNotificationBehavior = value;
         }
     }
@@ -378,7 +379,7 @@ public class TerminalOptions
         {
             if (Equals(value, _bellNotificationCustomBehavior)) return;
 
-            if (_bellNotificationCustomBehaviorChangeHandler?.Handle(value) is null or true)
+            if (_bellNotificationCustomBehaviorChangeHandler?.Invoke(value) is null or true)
                 _bellNotificationCustomBehavior = value;
         }
     }
@@ -390,7 +391,7 @@ public class TerminalOptions
         {
             if (Equals(value, _showFlyoutAtRightClick)) return;
 
-            if (_showFlyoutAtRightClickChangeHandler?.Handle(value) is null or true) _showFlyoutAtRightClick = value;
+            if (_showFlyoutAtRightClickChangeHandler?.Invoke(value) is null or true) _showFlyoutAtRightClick = value;
         }
     }
 
@@ -401,7 +402,7 @@ public class TerminalOptions
         {
             if (Equals(value, _customFlyoutAtRightClick)) return;
 
-            if (_customFlyoutAtRightClickChangeHandler?.Handle(value) is null or true)
+            if (_customFlyoutAtRightClickChangeHandler?.Invoke(value) is null or true)
                 _customFlyoutAtRightClick = value;
         }
     }
@@ -413,7 +414,7 @@ public class TerminalOptions
         {
             if (Equals(value, _showMarkOnScrollBar)) return;
 
-            if (_showMarkOnScrollBarChangeHandler?.Handle(value) is null or true) _showMarkOnScrollBar = value;
+            if (_showMarkOnScrollBarChangeHandler?.Invoke(value) is null or true) _showMarkOnScrollBar = value;
         }
     }
 
@@ -424,159 +425,159 @@ public class TerminalOptions
         {
             if (Equals(value, _useSearch)) return;
 
-            if (_useSearchChangeHandler?.Handle(value) is null or true) _useSearch = value;
+            if (_useSearchChangeHandler?.Invoke(value) is null or true) _useSearch = value;
         }
     }
 
-    public void OnBoundsChanged(IPropertyChangeHandler<Rect> boundsChangeHandler)
+    public void OnBoundsChanged(Func<Rect, bool> boundsChangeHandler)
     {
         _boundsChangeHandler = boundsChangeHandler;
     }
 
-    public void OnMaxHistoryRowsChanged(IPropertyChangeHandler<int> maxHistoryRowsChangeHandler)
+    public void OnMaxHistoryRowsChanged(Func<int, bool> maxHistoryRowsChangeHandler)
     {
         _maxHistoryRowsChangeHandler = maxHistoryRowsChangeHandler;
     }
 
-    public void OnFontFamilyChanged(IPropertyChangeHandler<FontFamily> fontFamilyChangeHandler)
+    public void OnFontFamilyChanged(Func<FontFamily, bool> fontFamilyChangeHandler)
     {
         _fontFamilyChangeHandler = fontFamilyChangeHandler;
     }
 
-    public void OnFontStyleChanged(IPropertyChangeHandler<FontStyle> fontStyleChangeHandler)
+    public void OnFontStyleChanged(Func<FontStyle, bool> fontStyleChangeHandler)
     {
         _fontStyleChangeHandler = fontStyleChangeHandler;
     }
 
-    public void OnFontWeightChanged(IPropertyChangeHandler<FontWeight> fontWeightChangeHandler)
+    public void OnFontWeightChanged(Func<FontWeight, bool> fontWeightChangeHandler)
     {
         _fontWeightChangeHandler = fontWeightChangeHandler;
     }
 
-    public void OnFontStretchChanged(IPropertyChangeHandler<FontStretch> fontStretchChangeHandler)
+    public void OnFontStretchChanged(Func<FontStretch, bool> fontStretchChangeHandler)
     {
         _fontStretchChangeHandler = fontStretchChangeHandler;
     }
 
-    public void OnFontSizeChanged(IPropertyChangeHandler<double> fontSizeChangeHandler)
+    public void OnFontSizeChanged(Func<double, bool> fontSizeChangeHandler)
     {
         _fontSizeChangeHandler = fontSizeChangeHandler;
     }
 
-    public void OnDefaultForegroundChanged(IPropertyChangeHandler<IBrush> defaultForegroundChangeHandler)
+    public void OnDefaultForegroundChanged(Func<IBrush, bool> defaultForegroundChangeHandler)
     {
         _defaultForegroundChangeHandler = defaultForegroundChangeHandler;
     }
 
-    public void OnDefaultBackgroundChanged(IPropertyChangeHandler<IBrush> defaultBackgroundChangeHandler)
+    public void OnDefaultBackgroundChanged(Func<IBrush, bool> defaultBackgroundChangeHandler)
     {
         _defaultBackgroundChangeHandler = defaultBackgroundChangeHandler;
     }
 
-    public void OnSelectedForegroundChanged(IPropertyChangeHandler<IBrush> selectedForegroundChangeHandler)
+    public void OnSelectedForegroundChanged(Func<IBrush, bool> selectedForegroundChangeHandler)
     {
         _selectedForegroundChangeHandler = selectedForegroundChangeHandler;
     }
 
-    public void OnSelectedBackgroundChanged(IPropertyChangeHandler<IBrush> selectedBackgroundChangeHandler)
+    public void OnSelectedBackgroundChanged(Func<IBrush, bool> selectedBackgroundChangeHandler)
     {
         _selectedBackgroundChangeHandler = selectedBackgroundChangeHandler;
     }
 
-    public void OnBackgroundImageChanged(IPropertyChangeHandler<IImage?> backgroundImageChangeHandler)
+    public void OnBackgroundImageChanged(Func<IImage?, bool> backgroundImageChangeHandler)
     {
         _backgroundImageChangeHandler = backgroundImageChangeHandler;
     }
 
     public void OnBackgroundImgAlignmentChanged(
-        IPropertyChangeHandler<ImageAlignment> backgroundImgAlignmentChangeHandler)
+        Func<ImageAlignment, bool> backgroundImgAlignmentChangeHandler)
     {
         _backgroundImgAlignmentChangeHandler = backgroundImgAlignmentChangeHandler;
     }
 
-    public void OnLeftPaddingChanged(IPropertyChangeHandler<double> leftPaddingChangeHandler)
+    public void OnLeftPaddingChanged(Func<double, bool> leftPaddingChangeHandler)
     {
         _leftPaddingChangeHandler = leftPaddingChangeHandler;
     }
 
-    public void OnTopPaddingChanged(IPropertyChangeHandler<double> topPaddingChangeHandler)
+    public void OnTopPaddingChanged(Func<double, bool> topPaddingChangeHandler)
     {
         _topPaddingChangeHandler = topPaddingChangeHandler;
     }
 
-    public void OnAutoLineWrapChanged(IPropertyChangeHandler<bool> autoLineWrapChangeHandler)
+    public void OnAutoLineWrapChanged(Func<bool, bool> autoLineWrapChangeHandler)
     {
         _autoLineWrapChangeHandler = autoLineWrapChangeHandler;
     }
 
-    public void OnCursorShapeChanged(IPropertyChangeHandler<CursorShape> cursorShapeChangeHandler)
+    public void OnCursorShapeChanged(Func<CursorShape, bool> cursorShapeChangeHandler)
     {
         _cursorShapeChangeHandler = cursorShapeChangeHandler;
     }
 
-    public void OnBackgroundImgOpacityChanged(IPropertyChangeHandler<double> backgroundImgOpacityChangeHandler)
+    public void OnBackgroundImgOpacityChanged(Func<double, bool> backgroundImgOpacityChangeHandler)
     {
         _backgroundImgOpacityChangeHandler = backgroundImgOpacityChangeHandler;
     }
 
-    public void OnEmphasizeTextStyleChanged(IPropertyChangeHandler<EmphasizeTextStyle> emphasizeTextStyleChangeHandler)
+    public void OnEmphasizeTextStyleChanged(Func<EmphasizeTextStyle, bool> emphasizeTextStyleChangeHandler)
     {
         _emphasizeTextStyleChangeHandler = emphasizeTextStyleChangeHandler;
     }
 
-    public void OnForbidTitleChangeChanged(IPropertyChangeHandler<bool> forbidTitleChangeChangeHandler)
+    public void OnForbidTitleChangeChanged(Func<bool, bool> forbidTitleChangeChangeHandler)
     {
         _forbidTitleChangeChangeHandler = forbidTitleChangeChangeHandler;
     }
 
-    public void OnAllowDECRQCRAChanged(IPropertyChangeHandler<bool> allowDECRQCRAChangeHandler)
+    public void OnAllowDECRQCRAChanged(Func<bool, bool> allowDECRQCRAChangeHandler)
     {
         _allowDECRQCRAChangeHandler = allowDECRQCRAChangeHandler;
     }
 
-    public void OnAllowOSC52ToClipboardChanged(IPropertyChangeHandler<bool> allowOSC52ToClipboardChangeHandler)
+    public void OnAllowOSC52ToClipboardChanged(Func<bool, bool> allowOSC52ToClipboardChangeHandler)
     {
         _allowOSC52ToClipboardChangeHandler = allowOSC52ToClipboardChangeHandler;
     }
 
-    public void OnENQResponseChanged(IPropertyChangeHandler<string?> enqResponseChangeHandler)
+    public void OnENQResponseChanged(Func<string?, bool> enqResponseChangeHandler)
     {
         _enqResponseChangeHandler = enqResponseChangeHandler;
     }
 
-    public void OnScrollToInputChanged(IPropertyChangeHandler<bool> scrollToInputChangeHandler)
+    public void OnScrollToInputChanged(Func<bool, bool> scrollToInputChangeHandler)
     {
         _scrollToInputChangeHandler = scrollToInputChangeHandler;
     }
 
     public void OnBellNotificationBehaviorChanged(
-        IPropertyChangeHandler<BellNotificationBehavior> bellNotificationBehaviorChangeHandler)
+        Func<BellNotificationBehavior, bool> bellNotificationBehaviorChangeHandler)
     {
         _bellNotificationBehaviorChangeHandler = bellNotificationBehaviorChangeHandler;
     }
 
     public void OnBellNotificationCustomBehaviorChanged(
-        IPropertyChangeHandler<IBellNotificationCustomBehavior?> bellNotificationCustomBehaviorChangeHandler)
+        Func<IBellNotificationCustomBehavior?, bool> bellNotificationCustomBehaviorChangeHandler)
     {
         _bellNotificationCustomBehaviorChangeHandler = bellNotificationCustomBehaviorChangeHandler;
     }
 
-    public void OnShowFlyoutAtRightClickChanged(IPropertyChangeHandler<bool> showFlyoutAtRightClickChangeHandler)
+    public void OnShowFlyoutAtRightClickChanged(Func<bool, bool> showFlyoutAtRightClickChangeHandler)
     {
         _showFlyoutAtRightClickChangeHandler = showFlyoutAtRightClickChangeHandler;
     }
 
-    public void OnCustomFlyoutAtRightClickChanged(IPropertyChangeHandler<Flyout?> customFlyoutAtRightClickChangeHandler)
+    public void OnCustomFlyoutAtRightClickChanged(Func<Flyout?, bool> customFlyoutAtRightClickChangeHandler)
     {
         _customFlyoutAtRightClickChangeHandler = customFlyoutAtRightClickChangeHandler;
     }
 
-    public void OnShowMarkOnScrollBarChanged(IPropertyChangeHandler<bool> showMarkOnScrollBarChangeHandler)
+    public void OnShowMarkOnScrollBarChanged(Func<bool, bool> showMarkOnScrollBarChangeHandler)
     {
         _showMarkOnScrollBarChangeHandler = showMarkOnScrollBarChangeHandler;
     }
 
-    public void OnUseSearchChanged(IPropertyChangeHandler<bool> useSearchChangeHandler)
+    public void OnUseSearchChanged(Func<bool, bool> useSearchChangeHandler)
     {
         _useSearchChangeHandler = useSearchChangeHandler;
     }
